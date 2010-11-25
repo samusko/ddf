@@ -8,7 +8,7 @@
 #  j, k, 矢印上, 矢印下: カーソル移動（j,k使用推奨）
 #  Space: ファイルの選択/選択解除
 #  BackSpace, b: いっこ上のディレクトリに移動
-#  Enter: いま選んでいるディレクトリに入る。ファイルならなにもしない（いまんとこ）
+#  Enter,h: いま選んでいるディレクトリに入る。ファイルならなにもしない（いまんとこ）
 #  g: ディレクトリ移動(change directory, Go)
 #     ※ コピー、移動、削除はファイルを選択してから！
 #  c: 選択中のファイルを指定ディレクトリにコピー
@@ -30,6 +30,7 @@
 #	* フォルダをみるPermissionがないときの処理?
 #	* BSで戻ったときpositionを元に戻す?
 #	* 隠しファイルの表示/非表示
+#	* DFみたいな検索機能
 #
 
 import curses
@@ -190,7 +191,7 @@ def main(scr):
 				offset+=1
 				if offset>itemnum-(maxcy-2): offset=itemnum-(maxcy-2)
 				
-		if c==10:	## ENTER キー
+		if c==10 or c==ord('h'):	## ENTER キー
 			if flist.files[index].isDir==True:
 				os.chdir(flist.files[index].fname)
 				offset=index=0
