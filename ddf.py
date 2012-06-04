@@ -93,7 +93,7 @@ def inputtext(scr, text=''):
 
 def inputpath(scr, text=''):
 	ret='.'
-	path = os.path.abspath(inputtext(scr, text))
+	path = os.path.expanduser(inputtext(scr, text))
 	if os.path.exists(path): ret=path
 	return ret
 
@@ -102,20 +102,20 @@ def copyFiles(scr, flist):
 	if os.path.exists(dst):
 		for i in flist.files:
 			if i.isSelect==True:
-				os.system('cp "'+i.fname+'" "'+dst+'"')
-				#shutil.copy(i.fname, dst)
+				#os.system('cp "'+i.fname+'" "'+dst+'"')
+				shutil.copy(i.fname, dst)
 
 def moveFiles(scr, flist):
 	dst=inputpath(scr, 'MoveTo?')
 	if os.path.exists(dst):
 		for i in flist.files:
 			if i.isSelect==True:
-				os.system('mv "'+i.fname+'" "'+dst+'"')
-				#shutil.move(i.fname, dst)
-				#try:
-				#	shutil.move(i.fname, dst)
-				#except shutil.Error:
-				#	return 'File Move Error: already exists.'
+				#os.system('mv "'+i.fname+'" "'+dst+'"')
+				shutil.move(i.fname, dst)
+				try:
+					shutil.move(i.fname, dst)
+				except shutil.Error:
+					return 'File Move Error: already exists.'
 
 def deleteFiles(scr, flist):
 	for i in flist.files:
@@ -136,6 +136,7 @@ def runcommand2(scr, flist):
 	cmd=inputtext(scr, 'Run:')
 	for i in flist.files:
 		if i.isSelect:
+			# for os.system, contain blank and quotes.
 			opt+=' "'+i.fname+'"'
 	os.system(cmd+opt)
 	
